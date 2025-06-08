@@ -53,9 +53,9 @@ export default function PersonalDataCompletePage() {
             userAge: age || "Not specified",
             quizScore: result.score,
             resultType: result.type,
-            resultTitle: userCountry === "ua" ? result.titleUA : result.title,
-            resultDescription: userCountry === "ua" ? result.descriptionUA : result.description,
-            language: userCountry,
+            resultTitle: selectedLanguage === "ua" ? result.titleUA : result.title,
+            resultDescription: selectedLanguage === "ua" ? result.descriptionUA : result.description,
+            language: selectedLanguage === "ua" ? "ua" : "us",
           }
 
           // Use retry logic (up to 2 retries)
@@ -72,7 +72,7 @@ export default function PersonalDataCompletePage() {
     }
 
     sendEmail()
-  }, [userCountry])
+  }, [])
 
   const handleContinue = () => {
     const selectedLanguage = localStorage.getItem("selectedLanguage")

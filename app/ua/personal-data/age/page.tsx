@@ -14,8 +14,8 @@ export default function AgeInputPageUA() {
       // Save age
       localStorage.setItem("userAge", age)
 
-      // Simulate email sending and redirect to final screen
-      router.push("/ua/personal-data/complete")
+      // Redirect to the main completion page
+      router.push("/personal-data/complete")
     }
   }
 
