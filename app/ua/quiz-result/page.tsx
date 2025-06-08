@@ -101,7 +101,7 @@ export default function QuizResultPageUA() {
             {/* Text content */}
             <div className="text-left">
               <h1 className="text-2xl font-bold text-[#303030] mb-4">
-                Вау! Ти справжня <span className="bg-[#D1F26E] px-1">{result.titleUA}</span>!
+                Вау! Ти справжній<span className="bg-[#D1F26E] px-1">{result.titleUA}</span>!
               </h1>
               <p className="text-sm text-gray-600 mb-4">({result.score} з 12 правильних)</p>
               <p className="text-[#303030] text-base leading-relaxed">{result.descriptionUA}</p>

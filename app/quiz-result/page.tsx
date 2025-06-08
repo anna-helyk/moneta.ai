@@ -105,7 +105,7 @@ export default function QuizResultPage() {
             {/* Text content */}
             <div className="text-left">
               <h1 className="text-2xl font-bold text-[#303030] mb-4">
-                {userCountry === "ua" ? "Вау! Ти справжня " : "Wow! You're a true "}
+                {userCountry === "ua" ? "Вау! Ти справжній " : "Wow! You're a true "}
                 <span className="bg-[#D1F26E] px-1">{userCountry === "ua" ? result.titleUA : result.title}</span>!
               </h1>
               <p className="text-sm text-gray-600 mb-4">
