@@ -16,10 +16,10 @@ export default function EnglishHomePage() {
         ></div>
 
         {/* Content layer */}
-        <div className="relative bg-white rounded-2xl p-6 border border-gray-100 min-h-[500px] flex flex-col">
-          <div className="flex-1 flex flex-col items-start justify-center space-y-8 py-16">
+        <div className="relative bg-white rounded-2xl p-6 border border-gray-100 flex flex-col items-center justify-center min-h-[500px]">
+          <div className="flex-1 flex flex-col items-start justify-center space-y-8 w-full">
             {/* Emoji */}
-            <div className="text-8xl mb-4">💸</div>
+            <div className="text-8xl">💸</div>
 
             {/* Text content */}
             <div className="text-left">

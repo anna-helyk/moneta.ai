@@ -216,8 +216,8 @@ export default function QuestionnairePageUA({ params }: { params: { id: string }
         ></div>
 
         {/* Content layer */}
-        <div className="relative bg-white rounded-2xl p-6 border border-gray-100 min-h-[500px] flex flex-col">
-          <div className="flex justify-between items-start mb-6">
+        <div className="relative bg-white rounded-2xl p-6 border border-gray-100 flex flex-col items-center justify-center min-h-[500px]">
+          <div className="flex justify-between items-start w-full mb-6">
             <button
               onClick={handleBack}
               className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 bg-white text-[#303030]"
@@ -228,7 +228,7 @@ export default function QuestionnairePageUA({ params }: { params: { id: string }
             <div className="text-sm font-medium text-[#303030]">{questionId} / 12</div>
           </div>
 
-          <div className="flex-1 space-y-6 mb-6">
+          <div className="flex-1 w-full space-y-6 mb-6">
             <h1 className="text-xl font-bold text-[#303030] text-left">{question.title}</h1>
 
             <div className="space-y-3">

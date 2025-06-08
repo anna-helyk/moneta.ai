@@ -30,9 +30,9 @@ export default function LanguageSelectionPage() {
         ></div>
 
         {/* Content layer */}
-        <div className="relative bg-white rounded-3xl p-6 border border-gray-100 min-h-[500px] flex flex-col items-center">
+        <div className="relative bg-white rounded-3xl p-6 border border-gray-100 flex flex-col items-center justify-center min-h-[500px]">
           {/* App Branding Block */}
-          <div className="flex flex-col items-center mb-8 mt-8">
+          <div className="flex flex-col items-center mb-8">
             {/* Logo */}
             <div className="relative mb-3">
               <div
