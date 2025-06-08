@@ -21,7 +21,7 @@ const calculateQuizResult = (answers: Record<number, string>) => {
       type: "rockstar",
       emoji: "🎸",
       title: "Financial Rock Star",
-      titleUA: "Фінансовий рок-зірка",
+      titleUA: "Фінансова рок-зірка",
       description:
         "Your knowledge is at the top level — you already understand finances well and have confidence in your knowledge! By the way, if you've read this far, it means money is no longer just about \"surviving\" for you. And that's awesome.",
       descriptionUA:
