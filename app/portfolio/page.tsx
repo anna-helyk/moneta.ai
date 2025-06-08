@@ -65,80 +65,82 @@ export default function PortfolioPage() {
   const isPositive = change >= 0
 
   return (
-    <div className="p-4 space-y-6">
-      <h1 className="text-2xl font-bold text-purple-800">{portfolioData.name}</h1>
+    <div className="p-4 space-y-6 flex flex-col items-center">
+      <div className="w-full max-w-sm">
+        <h1 className="text-2xl font-bold text-purple-800">{portfolioData.name}</h1>
 
-      <Card className="shadow-sm">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-3xl font-bold">${portfolioData.totalValue.toFixed(2)}</CardTitle>
-          <div className={`text-sm ${isPositive ? "text-green-600" : "text-red-600"}`}>
-            {isPositive ? "+" : ""}
-            {change.toFixed(2)} ({isPositive ? "+" : ""}
-            {percentChange.toFixed(2)}%)
-          </div>
-        </CardHeader>
-        <CardContent>
-          <Tabs defaultValue="day" onValueChange={setTimeframe}>
-            <TabsList className="grid grid-cols-4 mb-4">
-              <TabsTrigger value="day">Day</TabsTrigger>
-              <TabsTrigger value="week">Week</TabsTrigger>
-              <TabsTrigger value="month">Month</TabsTrigger>
-              <TabsTrigger value="year">Year</TabsTrigger>
-            </TabsList>
-
-            <div className="h-[200px] w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={performanceData}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                  <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{ fontSize: 12 }} />
-                  <YAxis
-                    domain={["auto", "auto"]}
-                    axisLine={false}
-                    tickLine={false}
-                    tick={{ fontSize: 12 }}
-                    width={60}
-                    tickFormatter={(value) => `$${value.toFixed(0)}`}
-                  />
-                  <Tooltip
-                    formatter={(value) => [`$${typeof value === 'number' ? value.toFixed(2) : value}`, "Value"]}
-                    labelFormatter={(label) => `Time: ${label}`}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="value"
-                    stroke="#8b5cf6"
-                    strokeWidth={2}
-                    dot={false}
-                    activeDot={{ r: 6 }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
+        <Card className="shadow-sm mt-6">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-3xl font-bold">${portfolioData.totalValue.toFixed(2)}</CardTitle>
+            <div className={`text-sm ${isPositive ? "text-green-600" : "text-red-600"}`}>
+              {isPositive ? "+" : ""}
+              {change.toFixed(2)} ({isPositive ? "+" : ""}
+              {percentChange.toFixed(2)}%)
             </div>
-          </Tabs>
-        </CardContent>
-      </Card>
+          </CardHeader>
+          <CardContent>
+            <Tabs defaultValue="day" onValueChange={setTimeframe}>
+              <TabsList className="grid grid-cols-4 mb-4">
+                <TabsTrigger value="day">Day</TabsTrigger>
+                <TabsTrigger value="week">Week</TabsTrigger>
+                <TabsTrigger value="month">Month</TabsTrigger>
+                <TabsTrigger value="year">Year</TabsTrigger>
+              </TabsList>
 
-      <div>
-        <h2 className="text-lg font-medium mb-3">Your Assets</h2>
-        <div className="space-y-3">
-          {portfolioData.assets.map((asset) => (
-            <Card key={asset.symbol} className="shadow-sm">
-              <CardContent className="p-4">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <div className="font-medium">{asset.symbol}</div>
-                    <div className="text-sm text-gray-500">{asset.name}</div>
-                  </div>
-                  <div className="text-right">
-                    <div className="font-medium">${asset.value.toFixed(2)}</div>
-                    <div className="text-sm text-gray-500">
-                      {asset.quantity} {asset.quantity === 1 ? "share" : "shares"}
+              <div className="h-[200px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={performanceData}>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                    <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{ fontSize: 12 }} />
+                    <YAxis
+                      domain={["auto", "auto"]}
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 12 }}
+                      width={60}
+                      tickFormatter={(value) => `$${value.toFixed(0)}`}
+                    />
+                    <Tooltip
+                      formatter={(value) => [`$${typeof value === 'number' ? value.toFixed(2) : value}`, "Value"]}
+                      labelFormatter={(label) => `Time: ${label}`}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="value"
+                      stroke="#8b5cf6"
+                      strokeWidth={2}
+                      dot={false}
+                      activeDot={{ r: 6 }}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </Tabs>
+          </CardContent>
+        </Card>
+
+        <div className="mt-6">
+          <h2 className="text-lg font-medium mb-3">Your Assets</h2>
+          <div className="space-y-3">
+            {portfolioData.assets.map((asset) => (
+              <Card key={asset.symbol} className="shadow-sm">
+                <CardContent className="p-4">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <div className="font-medium">{asset.symbol}</div>
+                      <div className="text-sm text-gray-500">{asset.name}</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="font-medium">${asset.value.toFixed(2)}</div>
+                      <div className="text-sm text-gray-500">
+                        {asset.quantity} {asset.quantity === 1 ? "share" : "shares"}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
       </div>
     </div>

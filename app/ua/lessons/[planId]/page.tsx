@@ -135,62 +135,64 @@ export default function LessonsPageUA({ params }: { params: { planId: string } }
         </div>
 
         {/* Class Cards */}
-        {updatedLessons.map((lesson) => (
-          <div key={lesson.id} className="relative">
-            <div
-              className="absolute inset-0 rounded-2xl translate-x-[8px] translate-y-[8px]"
-              style={{ backgroundColor: "#303030" }}
-            ></div>
-            <div
-              className={`relative rounded-2xl p-6 border border-gray-100 ${
-                lesson.status === "completed"
-                  ? "bg-white"
-                  : lesson.status === "current"
-                    ? "bg-[#FFFFF0]"
-                    : "bg-[#E6E6E6]"
-              }`}
-            >
-              <div className="flex justify-between items-start mb-3">
-                <div className="text-sm font-medium text-[#303030]">Урок #{lesson.id}</div>
-                <div
-                  className={`px-3 py-1 rounded-full text-xs font-medium ${
-                    lesson.status === "completed"
-                      ? "bg-gray-200 text-gray-600"
-                      : lesson.status === "current"
-                        ? "bg-[#D1F26E] text-[#303030]"
-                        : "bg-gray-300 text-gray-600"
-                  }`}
-                >
-                  {lesson.status === "completed"
-                    ? "Пройдено"
-                    : lesson.status === "current"
-                      ? "Поточний"
-                      : "Заблокований"}
-                </div>
-              </div>
-
-              <h2 className="text-lg font-bold text-[#303030] mb-2">{lesson.title}</h2>
-              <p className="text-sm text-gray-600 mb-4">{lesson.description}</p>
-
-              <button
-                onClick={() =>
-                  (lesson.status === "current" || lesson.status === "completed") &&
-                  router.push(`/ua/lesson/${lesson.id}`)
-                }
-                disabled={lesson.status === "locked"}
-                className={`w-full py-3 rounded-lg flex items-center justify-center ${
+        <div className="grid grid-cols-1 gap-6 place-items-center">
+          {updatedLessons.map((lesson) => (
+            <div key={lesson.id} className="relative">
+              <div
+                className="absolute inset-0 rounded-2xl translate-x-[8px] translate-y-[8px]"
+                style={{ backgroundColor: "#303030" }}
+              ></div>
+              <div
+                className={`relative rounded-2xl p-6 border border-gray-100 ${
                   lesson.status === "completed"
-                    ? "bg-white border border-gray-300 hover:bg-gray-50 text-gray-800"
+                    ? "bg-white"
                     : lesson.status === "current"
-                      ? "bg-[#D1F26E] hover:bg-[#D1F26E]/90 text-[#303030]"
-                      : "bg-gray-300 text-gray-500"
-                } font-medium`}
+                      ? "bg-[#FFFFF0]"
+                      : "bg-[#E6E6E6]"
+                }`}
               >
-                {lesson.status === "completed" ? "Повторити" : "Почати"}
-              </button>
+                <div className="flex justify-between items-start mb-3">
+                  <div className="text-sm font-medium text-[#303030]">Урок #{lesson.id}</div>
+                  <div
+                    className={`px-3 py-1 rounded-full text-xs font-medium ${
+                      lesson.status === "completed"
+                        ? "bg-gray-200 text-gray-600"
+                        : lesson.status === "current"
+                          ? "bg-[#D1F26E] text-[#303030]"
+                          : "bg-gray-300 text-gray-600"
+                    }`}
+                  >
+                    {lesson.status === "completed"
+                      ? "Пройдено"
+                      : lesson.status === "current"
+                        ? "Поточний"
+                        : "Заблокований"}
+                  </div>
+                </div>
+
+                <h2 className="text-lg font-bold text-[#303030] mb-2">{lesson.title}</h2>
+                <p className="text-sm text-gray-600 mb-4">{lesson.description}</p>
+
+                <button
+                  onClick={() =>
+                    (lesson.status === "current" || lesson.status === "completed") &&
+                    router.push(`/ua/lesson/${lesson.id}`)
+                  }
+                  disabled={lesson.status === "locked"}
+                  className={`w-full py-3 rounded-lg flex items-center justify-center ${
+                    lesson.status === "completed"
+                      ? "bg-white border border-gray-300 hover:bg-gray-50 text-gray-800"
+                      : lesson.status === "current"
+                        ? "bg-[#D1F26E] hover:bg-[#D1F26E]/90 text-[#303030]"
+                        : "bg-gray-300 text-gray-500"
+                  } font-medium`}
+                >
+                  {lesson.status === "completed" ? "Повторити" : "Почати"}
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   )
