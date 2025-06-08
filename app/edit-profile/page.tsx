@@ -84,7 +84,7 @@ export default function EditProfilePage() {
           <div className="mb-6">
             <button
               onClick={handleBack}
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-[#303030] text-white"
+              className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 bg-white text-[#303030]"
             >
               <ArrowLeft size={20} />
             </button>

@@ -365,7 +365,7 @@ export default function QuestionnairePage({ params }: { params: { id: string } }
           <div className="flex justify-between items-start mb-6">
             <button
               onClick={handleBack}
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-[#303030] text-white"
+              className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 bg-white text-[#303030]"
             >
               <ArrowLeft size={20} />
             </button>
@@ -390,7 +390,7 @@ export default function QuestionnairePage({ params }: { params: { id: string } }
                 <button
                   key={option.value}
                   onClick={() => handleOptionClick(option.value)}
-                  className={`w-full p-3 rounded-lg border text-left transition-all duration-250 ${
+                  className={`w-full p-3 rounded-lg border text-left transition-all duration-250 text-[#303030] ${
                     animatingButton === option.value
                       ? "border-gray-400 border-2 bg-gray-50"
                       : "border-gray-300 hover:border-gray-400"

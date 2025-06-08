@@ -147,7 +147,7 @@ export default function PersonalDataCompletePageUA() {
                   className="flex items-center space-x-2 text-sm p-2 rounded-md bg-gray-50"
                 >
                   {getStatusIcon()}
-                  <span>{getStatusMessage()}</span>
+                  <span className="text-[#303030]">{getStatusMessage()}</span>
                 </motion.div>
               )}
             </div>

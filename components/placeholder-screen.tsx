@@ -62,8 +62,7 @@ export default function PlaceholderScreen({ backRoute }: PlaceholderScreenProps)
           {/* Button - left-aligned */}
           <Button
             onClick={handleGoToProfile}
-            variant="outline"
-            className="w-full border-gray-300 hover:bg-gray-50 text-gray-800 font-semibold py-3 rounded-lg flex items-center justify-center mb-4"
+            className="w-full bg-[#D1F26E] hover:bg-[#D1F26E]/90 text-[#303030] font-medium py-3 rounded-lg flex items-center justify-center mb-4"
           >
             {userCountry === "ua" ? "Профіль" : "Profile"}
           </Button>
@@ -72,7 +71,7 @@ export default function PlaceholderScreen({ backRoute }: PlaceholderScreenProps)
           <div className="flex justify-center">
             <button
               onClick={handleInstagramClick}
-              className="w-8 h-8 flex items-center justify-center hover:text-gray-600 transition-colors"
+              className="w-8 h-8 flex items-center justify-center text-[#303030] hover:text-gray-600 transition-colors"
             >
               <InstagramIcon fontSize="small" />
             </button>

@@ -76,11 +76,11 @@ export default function LessonPageUA({ params }: { params: { id: string } }) {
           <div className="flex justify-between items-start mb-6">
             <button
               onClick={handleBack}
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-[#303030] text-white"
+              className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 bg-white text-[#303030]"
             >
               <ArrowLeft size={18} />
             </button>
-            <div className="px-3 py-1 bg-[#F5F5F5] rounded-full text-sm font-medium border border-gray-200 shadow-sm">
+            <div className="px-3 py-1 bg-[#F5F5F5] rounded-full text-sm font-medium border border-gray-200 shadow-sm text-[#303030]">
               Урок #{lesson.classNumber}
             </div>
           </div>

@@ -211,11 +211,11 @@ export default function LessonQuizPageUA({ params }: { params: { id: string } })
           <div className="flex justify-between items-start mb-6">
             <button
               onClick={handleBack}
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-[#303030] text-white"
+              className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 bg-white text-[#303030]"
             >
               <ArrowLeft size={18} />
             </button>
-            <div className="px-3 py-1 bg-[#F5F5F5] rounded-full text-sm font-medium border border-gray-200 shadow-sm">
+            <div className="px-3 py-1 bg-[#F5F5F5] rounded-full text-sm font-medium border border-gray-200 shadow-sm text-[#303030]">
               Урок #{quiz.classNumber}
             </div>
           </div>
@@ -230,7 +230,7 @@ export default function LessonQuizPageUA({ params }: { params: { id: string } })
                 <button
                   key={option.value}
                   onClick={() => handleSelectOption({ value: option.value, score: option.score })}
-                  className="w-full p-4 rounded-lg border border-gray-300 text-left flex items-start hover:border-[#D1F26E] hover:bg-[#D1F26E]/5"
+                  className="w-full p-4 rounded-lg border border-gray-300 text-left flex items-start hover:border-[#D1F26E] hover:bg-[#D1F26E]/5 text-[#303030]"
                 >
                   <div className="mr-3 font-bold">{option.letter}.</div>
                   <div>{option.label}</div>
