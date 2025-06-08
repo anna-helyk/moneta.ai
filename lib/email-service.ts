@@ -148,6 +148,10 @@ export const sendQuizResultEmail = async (emailData: EmailData, maxRetries = 2):
 
 // Get template ID based on quiz score
 const getTemplateIdByScore = (score: number): string => {
-  // Default template for all scores
+  // Return special template for 10-12 correct answers
+  if (score >= 10 && score <= 12) {
+    return "template_t362qfd"
+  }
+  // Default template for all other scores
   return "template_xh6ad1b"
 }
