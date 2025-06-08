@@ -34,34 +34,38 @@ export const isEmailJSConfigured = () => {
   return true
 }
 
-// Load EmailJS script dynamically
+// Load EmailJS script dynamically with improved error handling
 const loadEmailJSScript = async (): Promise<boolean> => {
   if (!isBrowser) return false
   
   try {
-    if (window.emailjs) {
+    // If EmailJS is already loaded and initialized, return true
+    if (window.emailjs?.init) {
       return true
     }
 
     return new Promise((resolve) => {
+      // Check if the script is already in the process of loading
+      const existingScript = document.querySelector('script[src*="emailjs"]')
+      if (existingScript) {
+        // If script exists but not loaded, wait for it
+        existingScript.addEventListener('load', () => {
+          initializeEmailJS(resolve)
+        })
+        existingScript.addEventListener('error', () => {
+          console.error("Failed to load existing EmailJS script")
+          resolve(false)
+        })
+        return
+      }
+
+      // Create and load the script
       const script = document.createElement("script")
       script.src = "https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"
       script.async = true
+      script.defer = true
 
-      script.onload = () => {
-        if (window.emailjs && process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY) {
-          try {
-            window.emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY)
-            resolve(true)
-          } catch (error) {
-            console.error("Failed to initialize EmailJS:", error)
-            resolve(false)
-          }
-        } else {
-          resolve(false)
-        }
-      }
-
+      script.onload = () => initializeEmailJS(resolve)
       script.onerror = () => {
         console.error("Failed to load EmailJS script")
         resolve(false)
@@ -75,11 +79,37 @@ const loadEmailJSScript = async (): Promise<boolean> => {
   }
 }
 
-// Send quiz result email with retry logic
+// Initialize EmailJS with the public key
+const initializeEmailJS = (resolve: (value: boolean) => void) => {
+  try {
+    if (window.emailjs && process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY) {
+      window.emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY)
+      resolve(true)
+    } else {
+      resolve(false)
+    }
+  } catch (error) {
+    console.error("Failed to initialize EmailJS:", error)
+    resolve(false)
+  }
+}
+
+// Get template ID based on quiz score
+const getTemplateIdByScore = (score: number): string => {
+  // Return special template for 10-12 correct answers
+  if (score >= 10 && score <= 12) {
+    return "template_t362qfd"
+  }
+  // Default template for all other scores
+  return "template_xh6ad1b"
+}
+
+// Send quiz result email with improved retry logic
 export const sendQuizResultEmail = async (emailData: EmailData, maxRetries = 2): Promise<boolean> => {
   if (!isBrowser) return false
   
   let retries = 0
+  const retryDelay = 1000 // Base delay in milliseconds
 
   const attemptSend = async (): Promise<boolean> => {
     try {
@@ -94,13 +124,13 @@ export const sendQuizResultEmail = async (emailData: EmailData, maxRetries = 2):
       // Load EmailJS if not already loaded
       const isLoaded = await loadEmailJSScript()
       if (!isLoaded) {
-        console.error("Failed to load EmailJS")
-        return false
+        throw new Error("Failed to load or initialize EmailJS")
       }
 
       // Get the appropriate template ID based on quiz score
       const templateId = getTemplateIdByScore(emailData.quizScore)
 
+      // Prepare template parameters
       const templateParams = {
         to_email: emailData.userEmail,
         user_name: emailData.userName || "User",
@@ -111,6 +141,7 @@ export const sendQuizResultEmail = async (emailData: EmailData, maxRetries = 2):
         language: emailData.language,
       }
 
+      // Log email attempt details
       console.log("Sending email with params:", {
         to: emailData.userEmail,
         serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
@@ -118,10 +149,12 @@ export const sendQuizResultEmail = async (emailData: EmailData, maxRetries = 2):
         score: emailData.quizScore
       })
 
+      // Send the email
       const response = await window.emailjs.send(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
         templateId,
-        templateParams
+        templateParams,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY // Include public key for additional security
       )
 
       console.log("EmailJS response:", response)
@@ -135,23 +168,62 @@ export const sendQuizResultEmail = async (emailData: EmailData, maxRetries = 2):
   // First attempt
   let success = await attemptSend()
 
-  // Retry logic
+  // Retry logic with exponential backoff
   while (!success && retries < maxRetries) {
     retries++
-    // Wait before retrying (exponential backoff)
-    await new Promise((resolve) => setTimeout(resolve, 1000 * retries))
+    // Wait with exponential backoff (1s, 2s, 4s, etc.)
+    await new Promise((resolve) => setTimeout(resolve, retryDelay * Math.pow(2, retries - 1)))
     success = await attemptSend()
   }
 
   return success
 }
 
-// Get template ID based on quiz score
-const getTemplateIdByScore = (score: number): string => {
-  // Return special template for 10-12 correct answers
-  if (score >= 10 && score <= 12) {
-    return "template_t362qfd"
+// Test email configuration
+export const testEmailConfiguration = async (): Promise<{
+  isConfigured: boolean
+  publicKeyPresent: boolean
+  serviceIdPresent: boolean
+  scriptLoaded: boolean
+  initialized: boolean
+  details: string[]
+}> => {
+  const details: string[] = []
+  const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+  const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID
+
+  const publicKeyPresent = !!publicKey
+  const serviceIdPresent = !!serviceId
+  details.push(`Public Key: ${publicKeyPresent ? "Present" : "Missing"}`)
+  details.push(`Service ID: ${serviceIdPresent ? "Present" : "Missing"}`)
+
+  let scriptLoaded = false
+  let initialized = false
+
+  if (isBrowser) {
+    try {
+      scriptLoaded = await loadEmailJSScript()
+      details.push(`Script Loading: ${scriptLoaded ? "Success" : "Failed"}`)
+      
+      if (scriptLoaded) {
+        initialized = !!window.emailjs?.init
+        details.push(`Initialization: ${initialized ? "Success" : "Failed"}`)
+      }
+    } catch (error) {
+      details.push(`Error: ${error instanceof Error ? error.message : "Unknown error"}`)
+    }
+  } else {
+    details.push("Not in browser environment")
   }
-  // Default template for all other scores
-  return "template_xh6ad1b"
+
+  const isConfigured = publicKeyPresent && serviceIdPresent && scriptLoaded && initialized
+
+  return {
+    isConfigured,
+    publicKeyPresent,
+    serviceIdPresent,
+    scriptLoaded,
+    initialized,
+    details
+  }
 }
